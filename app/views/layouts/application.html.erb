@@ -7,10 +7,21 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
+
   </head>
 
   <body>
+    <div>
+      <% if signed_in? %>
+        <%= button_to "Salir", destroy_user_session_path, method: :delete %>
+        <%= button_to "Eliminar cuenta", registration_path(current_user), method: :delete, data: { confirm: '¿Estás seguro?' } %>
+      <% else %>
+        <%= link_to "Registrarse", new_user_registration_path %>
+        <%= link_to "Ingresar", new_user_session_path %>
+      <% end %>
+    </div>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
     <%= yield %>
   </body>
 </html>
