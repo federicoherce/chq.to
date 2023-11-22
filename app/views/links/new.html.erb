@@ -4,6 +4,10 @@
     <%= f.label :url %><br>
     <%= f.text_field :url %>
   </div>
+  <div class="field">
+    <%= f.label :link_type %><br>
+    <%= f.select :link_type, Link.link_types.keys.map { |t| [t.capitalize, t] } %>
+  </div>
   <div class="actions">
     <%= f.submit 'Create Link' %>
   </div>

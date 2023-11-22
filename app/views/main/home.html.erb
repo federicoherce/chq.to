@@ -1,2 +1,5 @@
 <h1>Home</h1>
-<p>Pagina Inicial</p>
+<p>Pagina Inicial</p>   
+<% if signed_in? %>
+    <%= link_to "Mis links", 'links' %>
+<% end %>

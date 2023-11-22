@@ -2,16 +2,27 @@ class LinksController < ApplicationController
   before_action :authenticate_user!
 
 
-
   def index
     @links = current_user.links
   end
 
+  def edit
+    @link = Link.find(params[:id])
+  end
+
+  def update
+    @link = Link.find(params[:id])
+
+    if @link.update(link_params)
+      redirect_to links_path, notice: 'Link was successfully updated.'
+    else
+      render :edit
+    end
+  end
 
   def new
     @link = current_user.links.build
   end
-
 
   def create
     @link = current_user.links.build(link_params)
@@ -23,18 +34,23 @@ class LinksController < ApplicationController
     end
   end
 
-
   def send_to_url
     id = decode_id(params{:short_url})
     link = Link.find(id)
     redirect_to link.url, allow_other_host: true
   end
 
+  def destroy
+    @link = Link.find(params[:id])
+    @link.destroy!
+    redirect_to links_path, notice: 'Link was successfully deleted'
+  end
+
 
   private
 
   def link_params
-    params.require(:link).permit(:url)
+    params.require(:link).permit(:url, :link_type)
   end
 
 

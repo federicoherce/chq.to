@@ -1,0 +1,13 @@
+<h1>Editar Link</h1>
+<%= form_for(@link) do |f| %>
+  <div class="field">
+    <%= f.label :url %><br>
+    <%= f.text_field :url %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit 'Update Link' %>
+  </div>
+<% end %>
+
+  <%= button_to "Eliminar link", @link, method: :delete %>
