@@ -1,0 +1,7 @@
+<h1>Your Links</h1>
+<% @links.each do |link| %>
+  <p>
+    Original URL: <%= link.url %><br>
+    Short URL: <%= link.short_url %>
+  </p>
+<% end %>
