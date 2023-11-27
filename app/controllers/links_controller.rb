@@ -26,10 +26,21 @@ class LinksController < ApplicationController
 
   def create
     @link = current_user.links.build(link_params)
+    case @link.tipo_link
+    when 'regular'
+      @link.linkable = RegularLink.new
+    when 'temporal'
+      @link.linkable = TemporalLink.new
+    when 'privado'
+      @link.linkable = PrivateLink.new
+    when 'efimero'
+      @link.linkable = EphemeralLink.new
+    end
     if @link.save
       @link.update(short_url: "http://127.0.0.1:3000/#{encode_id(@link.id)}")
       redirect_to links_path, notice: 'Link was successfully created.'
     else
+      puts @link.errors.full_messages
       render :new
     end
   end
@@ -50,7 +61,7 @@ class LinksController < ApplicationController
   private
 
   def link_params
-    params.require(:link).permit(:url, :link_type)
+    params.require(:link).permit(:url, :tipo_link, :expiration_date, :password, :entered)
   end
 
 

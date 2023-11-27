@@ -7,34 +7,4 @@ class Link < ApplicationRecord
     linkable.redirect
   end
 
-
-  class RegularLink < Link
-
-
-    def redirect
-
-    end
-  end
-
-  class TemporalLink < Link
-    validates :expiration_date, presence: true
-
-    def redirect
-
-    end
-  end
-
-  class PrivateLink < Link
-    validates :password, presence: true
-
-    def redirect
-
-    end
-  end
-
-  class EphemeralLink < Link
-    def redirect
-
-    end
-  end
 end
