@@ -5,10 +5,45 @@
     <%= f.text_field :url %>
   </div>
   <div class="field">
-    <%= f.label :link_type %><br>
-    <%= f.select :link_type, Link.link_types.keys.map { |t| [t.capitalize, t] } %>
+    <%= f.label :tipo_link %><br>
+    <%= f.select :tipo_link, [['Regular', 'regular'], ['Temporal', 'temporal'], ['Privado', 'privado'], ['Efimero', 'efimero']], {}, class: 'tipo-link-select' %>
   </div>
+
+
+<div class="field expiration-date-field">
+  <%= f.label :expiration_date %><br>
+  <%= f.datetime_select :expiration_date %>
+</div>
+
+<!-- Campos específicos para enlaces privados -->
+<div class="field password-field">
+  <%= f.label :password %><br>
+  <%= f.password_field :password %>
+</div>
+
   <div class="actions">
     <%= f.submit 'Create Link' %>
   </div>
 <% end %>
+
+<script>
+$(document).ready(function() {
+  // Ocultar campos al principio
+  $('.expiration-date-field, .password-field').hide();
+
+  // Mostrar u ocultar campos según la opción seleccionada
+  $('.tipo-link-select').change(function() {
+    var selectedOption = $(this).val();
+
+    // Ocultar todos los campos
+    $('.expiration-date-field, .password-field').hide();
+
+    // Mostrar el campo correspondiente a la opción seleccionada
+    if (selectedOption === 'temporal') {
+      $('.expiration-date-field').show();
+    } else if (selectedOption === 'privado') {
+      $('.password-field').show();
+    } 
+  });
+});
+</script>
