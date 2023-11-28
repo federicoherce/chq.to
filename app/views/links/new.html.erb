@@ -1,24 +1,18 @@
 <h1>New Link</h1>
-<%= form_for(@link) do |f| %>
+<%= form_for(@link, url: links_path) do |f| %>
   <div class="field">
     <%= f.label :url %><br>
     <%= f.text_field :url %>
   </div>
+
   <div class="field">
-    <%= f.label :tipo_link %><br>
-    <%= f.select :tipo_link, [['Regular', 'regular'], ['Temporal', 'temporal'], ['Privado', 'privado'], ['Efimero', 'efimero']], {}, class: 'tipo-link-select' %>
+    <%= f.label :tipo %><br>
+    <%= f.select :tipo, [['Regular', 'regular'], ['Temporal', 'temporal'], ['Private', 'private'], ['Ephemeral', 'ephemeral']], {},  class: 'tipo-link-select', id: 'tipo-link-select' %>
   </div>
 
-
-<div class="field expiration-date-field">
+  <div class="field" id="fecha-field" style="display:none;">
   <%= f.label :expiration_date %><br>
   <%= f.datetime_select :expiration_date %>
-</div>
-
-<!-- Campos específicos para enlaces privados -->
-<div class="field password-field">
-  <%= f.label :password %><br>
-  <%= f.password_field :password %>
 </div>
 
   <div class="actions">
@@ -26,24 +20,23 @@
   </div>
 <% end %>
 
-<script>
-$(document).ready(function() {
-  // Ocultar campos al principio
-  $('.expiration-date-field, .password-field').hide();
+< <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var tipoSelect = document.getElementById('tipo-link-select');
+    var fechaField = document.getElementById('fecha-field');
+    var fechaSelects = fechaField.querySelectorAll('select');
+    fechaSelects.forEach(function (select) {
+      select.value = null;
+    });
 
-  // Mostrar u ocultar campos según la opción seleccionada
-  $('.tipo-link-select').change(function() {
-    var selectedOption = $(this).val();
-
-    // Ocultar todos los campos
-    $('.expiration-date-field, .password-field').hide();
-
-    // Mostrar el campo correspondiente a la opción seleccionada
-    if (selectedOption === 'temporal') {
-      $('.expiration-date-field').show();
-    } else if (selectedOption === 'privado') {
-      $('.password-field').show();
-    } 
+    tipoSelect.addEventListener('change', function () {
+      if (tipoSelect.value === 'temporal') {
+        fechaField.style.display = 'block';
+        // Puedes establecer la fecha inicial aquí si lo deseas.
+      } else {
+        fechaField.style.display = 'none';
+        // Establecer el valor de los campos de fecha a null
+      }
+    });
   });
-});
-</script>
+  </script>

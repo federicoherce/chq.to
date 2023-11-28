@@ -10,19 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_27_060441) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_27_164022) do
+  create_table "ephemeral_links", force: :cascade do |t|
+    t.boolean "entered"
+  end
+
   create_table "links", force: :cascade do |t|
     t.string "url"
-    t.integer "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "short_url"
-    t.datetime "expiration_date"
+    t.integer "user_id", null: false
+    t.string "tipo", null: false
+    t.string "expiration_date"
     t.string "password"
     t.boolean "entered"
-    t.string "tipo_link"
-    t.string "linkable_type"
-    t.integer "linkable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_links_on_user_id"
   end
 

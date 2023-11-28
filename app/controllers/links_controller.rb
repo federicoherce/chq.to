@@ -1,18 +1,18 @@
 class LinksController < ApplicationController
   before_action :authenticate_user!
 
-
   def index
     @links = current_user.links
   end
+
 
   def edit
     @link = Link.find(params[:id])
   end
 
+
   def update
     @link = Link.find(params[:id])
-
     if @link.update(link_params)
       redirect_to links_path, notice: 'Link was successfully updated.'
     else
@@ -20,27 +20,20 @@ class LinksController < ApplicationController
     end
   end
 
+
   def new
     @link = current_user.links.build
   end
 
+
   def create
-    @link = current_user.links.build(link_params)
-    case @link.tipo_link
-    when 'regular'
-      @link.linkable = RegularLink.new
-    when 'temporal'
-      @link.linkable = TemporalLink.new
-    when 'privado'
-      @link.linkable = PrivateLink.new
-    when 'efimero'
-      @link.linkable = EphemeralLink.new
-    end
+    @link = Link.new(link_params)
+    @link.user_id = current_user.id
     if @link.save
       @link.update(short_url: "http://127.0.0.1:3000/#{encode_id(@link.id)}")
       redirect_to links_path, notice: 'Link was successfully created.'
     else
-      puts @link.errors.full_messages
+      p @link.errors.full_messages
       render :new
     end
   end
@@ -48,8 +41,17 @@ class LinksController < ApplicationController
   def send_to_url
     id = decode_id(params{:short_url})
     link = Link.find(id)
-    redirect_to link.url, allow_other_host: true
+    link_class = link.tipo.capitalize + 'Link'
+    link = link.becomes(link_class.constantize)
+
+    if link.redirect(link)
+      redirect_to link.url, allow_other_host: true
+    else
+      p "no se pudo"
+    end
+     #link = Link.find_subclass(id)
   end
+
 
   def destroy
     @link = Link.find(params[:id])
@@ -61,7 +63,7 @@ class LinksController < ApplicationController
   private
 
   def link_params
-    params.require(:link).permit(:url, :tipo_link, :expiration_date, :password, :entered)
+    params.require(:link).permit(:url, :tipo, :expiration_date)
   end
 
 

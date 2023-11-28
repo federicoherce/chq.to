@@ -1,6 +1,6 @@
 class EphemeralLink < Link
-  has_one :link, as: :linkable
+  validates :entered, inclusion: { in: [true, false] }
   def redirect
-
+    p "redireccion e"
   end
 end

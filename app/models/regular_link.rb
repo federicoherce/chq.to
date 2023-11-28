@@ -1,6 +1,6 @@
 class RegularLink < Link
-  has_one :link, as: :linkable
-  def redirect
 
+  def redirect(link)
+    true
   end
 end
