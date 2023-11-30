@@ -29,6 +29,7 @@ class LinksController < ApplicationController
     #@link = Link.new(link_params)
     #@link.user_id = current_user.id
     #@link = Link.build(link_params[:url], link_params[:tipo], current_user.id)
+=begin
     case link_params[:tipo]
     when 'private'
       @link = PrivateLink.new(link_params)
@@ -37,6 +38,8 @@ class LinksController < ApplicationController
     else
       @link = Link.new(link_params)
     end
+=end
+    @link = Link.new(link_params)
     @link.user_id = current_user.id
     if @link.save
       @link.update(short_url: "http://127.0.0.1:3000/#{encode_id(@link.id)}")
@@ -48,7 +51,7 @@ class LinksController < ApplicationController
   end
 
   def send_to_url
-    if @link.tipo == "private"
+    if @link.type == "PrivateLink"
       render "password_form"
       return
     end
@@ -81,17 +84,17 @@ class LinksController < ApplicationController
 
   private
 
+
   def set_link
     id = decode_id(params[:short_url])
     @link = Link.find(id)
-    link_class = @link.tipo.capitalize + 'Link'
-    @link = @link.becomes(link_class.constantize)
   end
 
   def link_params
-    params.require(:link).permit(:url, :tipo, :nombre, :expiration_date).tap do |whitelisted|
-      whitelisted[:password] = params[:link][:password] if params[:link][:tipo] == 'private'
-      whitelisted[:entered] = params[:link][:entered] if params[:link][:tipo] == 'ephemeral'
+    #params.require(:link).permit(:url, :type, :nombre, :expiration_date, :password, :entered)
+    params.require(:link).permit(:url, :type, :nombre, :expiration_date).tap do |whitelisted|
+      whitelisted[:password] = params[:link][:password] if params[:link][:type] == 'PrivateLink'
+      whitelisted[:entered] = params[:link][:entered] if params[:link][:type] == 'EphemeralLink'
     end
   end
 

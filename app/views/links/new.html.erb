@@ -13,8 +13,8 @@
   </div>
 
   <div class="field">
-    <%= f.label :tipo %><br>
-    <%= f.select :tipo, [['Regular', 'regular'], ['Temporal', 'temporal'], ['Privado', 'private'], ['Efímero', 'ephemeral']], {},  class: 'tipo-link-select', id: 'tipo-link-select' %>
+    <%= f.label :type %><br>
+    <%= f.select :type, [['Regular', 'RegularLink'], ['Temporal', 'TemporalLink'], ['Privado', 'PrivateLink'], ['Efímero', 'EphemeralLink']], {},  class: 'tipo-link-select', id: 'tipo-link-select' %>
   </div>
 
   <div class="field">
@@ -61,12 +61,12 @@
     fechaField.style.display = 'none';
 
   tipoSelect.addEventListener('change', function () {
-    if (tipoSelect.value === 'temporal') {
+    if (tipoSelect.value === 'TemporalLink') {
       fechaField.style.display = 'block';
     } else {
       fechaField.style.display = 'none';
     }
-    if (tipoSelect.value === 'private') {
+    if (tipoSelect.value === 'PrivateLink') {
       passwordField.style.display = 'block';
     } else {
       passwordField.style.display = 'none';

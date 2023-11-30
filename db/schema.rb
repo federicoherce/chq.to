@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_30_042612) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_30_135659) do
   create_table "ephemeral_links", force: :cascade do |t|
     t.boolean "entered"
   end
@@ -19,7 +19,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_30_042612) do
     t.string "url"
     t.string "short_url"
     t.integer "user_id", null: false
-    t.string "tipo", null: false
+    t.string "type", null: false
     t.string "expiration_date"
     t.string "password"
     t.boolean "entered"

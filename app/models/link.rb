@@ -4,7 +4,6 @@ class Link < ApplicationRecord
 end
 
 def self.build(url, tipo, id)
-  aa
   link_class = link_type.capitalize + 'Link'
   link = link_class.constantize.new(params)
   link.user_id = user_id
