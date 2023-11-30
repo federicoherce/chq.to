@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_27_164022) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_30_042612) do
   create_table "ephemeral_links", force: :cascade do |t|
     t.boolean "entered"
   end
@@ -25,6 +25,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_27_164022) do
     t.boolean "entered"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "nombre"
     t.index ["user_id"], name: "index_links_on_user_id"
   end
 

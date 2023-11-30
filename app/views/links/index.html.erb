@@ -1,10 +1,20 @@
 <h1>Your Links</h1>
+<% if flash[:error] %>
+  <div class="alert alert-danger">
+    <%= flash[:error] %>
+  </div>
+<% end %>
 <%= link_to "Nuevo Link", 'links/new' %>
 <% @links.each do |link| %>
   <p>
     Original URL: <%= link.url %><br>
     Short URL: <%= link.short_url %><br>
     Type: <%= link.tipo %><br>
-    <%= link_to 'Edit', edit_link_path(link) %>
+    <% if link.nombre %>
+    Nombre: <%= link.nombre %><br>
+    <% end %>
+    <%= link_to 'Edit', edit_link_path(link.id) %>
   </p>
 <% end %>
+
+

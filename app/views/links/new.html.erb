@@ -1,4 +1,11 @@
 <h1>New Link</h1>
+<% if flash[:error].present? %>
+  <div class="alert alert-danger">
+    <h4>Error de validación:</h4>
+    <p><%= flash[:error] %></p>
+  </div>
+<% end %>
+
 <%= form_for(@link, url: links_path) do |f| %>
   <div class="field">
     <%= f.label :url %><br>
@@ -7,36 +14,63 @@
 
   <div class="field">
     <%= f.label :tipo %><br>
-    <%= f.select :tipo, [['Regular', 'regular'], ['Temporal', 'temporal'], ['Private', 'private'], ['Ephemeral', 'ephemeral']], {},  class: 'tipo-link-select', id: 'tipo-link-select' %>
+    <%= f.select :tipo, [['Regular', 'regular'], ['Temporal', 'temporal'], ['Privado', 'private'], ['Efímero', 'ephemeral']], {},  class: 'tipo-link-select', id: 'tipo-link-select' %>
   </div>
 
-  <div class="field" id="fecha-field" style="display:none;">
+  <div class="field">
+    <%= f.label :nombre %> (Opcional)<br>
+    <%= f.text_field :nombre %>
+  </div>
+
+<div class="field" id="fecha-field" style="display:none;">
   <%= f.label :expiration_date %><br>
-  <%= f.datetime_select :expiration_date %>
+  <%= f.date_select :expiration_date %>
 </div>
+
+  
+
+  <div class="field" id="password-field" style="display:none;">
+      <%= f.label :password %>
+      <%= f.password_field :password %>
+  </div>
+  
+  <div class="field" id="ephemeral-field" style="display:none;">
+  <%= f.check_box :entered %>
+  <%= f.label :entered %>
+  </div>
 
   <div class="actions">
     <%= f.submit 'Create Link' %>
   </div>
 <% end %>
 
-< <script>
+<script>
   document.addEventListener('DOMContentLoaded', function () {
     var tipoSelect = document.getElementById('tipo-link-select');
     var fechaField = document.getElementById('fecha-field');
     var fechaSelects = fechaField.querySelectorAll('select');
+    var passwordField = document.getElementById('password-field')
+    var ephemeralField = document.getElementById('ephemeral-field')
+
     fechaSelects.forEach(function (select) {
       select.value = null;
     });
 
-    tipoSelect.addEventListener('change', function () {
-      if (tipoSelect.value === 'temporal') {
-        fechaField.style.display = 'block';
-        // Puedes establecer la fecha inicial aquí si lo deseas.
-      } else {
-        fechaField.style.display = 'none';
-        // Establecer el valor de los campos de fecha a null
-      }
-    });
+    passwordField.style.display = 'none';
+    ephemeralField.style.display = 'none';
+    fechaField.style.display = 'none';
+
+  tipoSelect.addEventListener('change', function () {
+    if (tipoSelect.value === 'temporal') {
+      fechaField.style.display = 'block';
+    } else {
+      fechaField.style.display = 'none';
+    }
+    if (tipoSelect.value === 'private') {
+      passwordField.style.display = 'block';
+    } else {
+      passwordField.style.display = 'none';
+    }
   });
-  </script>
+});
+</script>

@@ -1,6 +1,6 @@
 class RegularLink < Link
 
-  def redirect(link)
-    true
+  def redirect(_link)
+    { success: true }
   end
 end
