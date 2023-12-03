@@ -1,4 +1,5 @@
-<h1>New Link</h1>
+<h1 style="text-align:center" >Nuevo Link</h1>
+<br>
 <% if flash[:error].present? %>
   <div class="alert alert-danger">
     <h4>Error de validación:</h4>
@@ -6,43 +7,44 @@
   </div>
 <% end %>
 
-<%= form_for(@link, url: links_path) do |f| %>
-  <div class="field">
-    <%= f.label :url %><br>
-    <%= f.text_field :url %>
-  </div>
+<div class="forms">
+  <%= form_for(@link, url: links_path) do |f| %>
+    <div class="form-group">
+      <%= f.label :url %><br>
+      <%= f.text_field :url, class: "form-control" %>
+    </div>
 
-  <div class="field">
-    <%= f.label :type %><br>
-    <%= f.select :type, [['Regular', 'RegularLink'], ['Temporal', 'TemporalLink'], ['Privado', 'PrivateLink'], ['Efímero', 'EphemeralLink']], {},  class: 'tipo-link-select', id: 'tipo-link-select' %>
-  </div>
+    <div class="field">
+      <%= f.label :type %><br>
+      <%= f.select :type, [['Regular', 'RegularLink'], ['Temporal', 'TemporalLink'], ['Privado', 'PrivateLink'], ['Efímero', 'EphemeralLink']], {},  class:"form-select", id: 'tipo-link-select' %>
+    </div>
 
-  <div class="field">
-    <%= f.label :nombre %> (Opcional)<br>
-    <%= f.text_field :nombre %>
-  </div>
+    <div class="form-group">
+      <%= f.label :nombre %> (Opcional)<br>
+      <%= f.text_field :nombre, class: "form-control"%>
+    </div>
 
-<div class="field" id="fecha-field" style="display:none;">
-  <%= f.label :expiration_date %><br>
-  <%= f.date_select :expiration_date %>
+    <div class="field" id="fecha-field" style="display:none;">
+      <%= f.label :expiration_date %><br>
+      <%= f.datetime_select :expiration_date %>
+    </div>
+
+    <div class="form-group"" id="password-field" style="display:none;">
+        <%= f.label :password %><br>
+        <%= f.password_field :password, class: "form-control" %>
+    </div>
+    
+    <div class="field" id="ephemeral-field" style="display:none;">
+        <%= f.check_box :entered %>
+        <%= f.label :entered %>
+    </div>
+
+    <br>
+    <div class="actions">
+        <%= f.submit 'Create Link', class: "btn btn-primary" %>
+    </div>
+  <% end %>
 </div>
-
-  
-
-  <div class="field" id="password-field" style="display:none;">
-      <%= f.label :password %>
-      <%= f.password_field :password %>
-  </div>
-  
-  <div class="field" id="ephemeral-field" style="display:none;">
-  <%= f.check_box :entered %>
-  <%= f.label :entered %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit 'Create Link' %>
-  </div>
-<% end %>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {

@@ -1,20 +1,46 @@
-<h1>Your Links</h1>
+<h1>Tus Links</h1>
+<br>
 <% if flash[:error] %>
   <div class="alert alert-danger">
     <%= flash[:error] %>
   </div>
 <% end %>
-<%= link_to "Nuevo Link", 'links/new' %>
-<% @links.each do |link| %>
-  <p>
-    Original URL: <%= link.url %><br>
-    Short URL: <%= link.short_url %><br>
-    Type: <%= link.type %><br>
-    <% if link.nombre %>
-    Nombre: <%= link.nombre %><br>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Original URL</th>
+      <th scope="col">Short URL</th>
+      <th scope="col">Type</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Editar</th>
+      <th scope="col">Eliminar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @links.each do |link| %>
+      <tr>
+        <td><%= link.url %></td>
+        <td><%= get_url + link.short_url %></td>
+        <td><%= link.type[/\A[A-Z][a-z]*/] %></td>
+        <td><%= link.nombre if link.nombre.present? %></td>
+        <td>
+          <%= link_to 'Editar', edit_link_path(link.id), class: 'btn btn-primary btn-sm' %>
+          <!-- Add other actions/buttons as needed -->
+        </td>
+        <td>
+          <%= button_to "Eliminar", link_path(link.id), method: :delete, class: "btn btn-danger", onclick: "return confirm('¿Estás seguro?');" %>
+        </td>
+      </tr>
     <% end %>
-    <%= link_to 'Edit', edit_link_path(link.id) %>
-  </p>
-<% end %>
+  </tbody>
+</table>
+<%= link_to 'Nuevo Link', 'links/new', class: 'btn btn-success' %>
+
+
+
+
+
+
+
 
 

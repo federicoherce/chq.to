@@ -1,13 +1,14 @@
-<h1>Editar Link</h1>
-<%= form_for(@link) do |f| %>
-  <div class="field">
-    <%= f.label :url %><br>
-    <%= f.text_field :url %>
-  </div>
+<h1 style="text-align:center" >Editar Link</h1>
+<div class="forms">
+  <%= form_for(@link, url: link_path(@link), method: :patch) do |f| %>
+    <div class="form-group">
+      <%= f.label :url %><br>
+      <%= f.text_field :url, class: "form-control" %>
+    </div>
 
-  <div class="actions">
-    <%= f.submit 'Update Link' %>
-  </div>
-<% end %>
-
-  <%= button_to "Eliminar link", @link, method: :delete %>
+    <br>
+    <div class="actions">
+      <%= f.submit 'Update Link', class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

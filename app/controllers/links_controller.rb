@@ -14,8 +14,6 @@ class LinksController < ApplicationController
     @link = Link.find(params[:id])
     if @link.update(link_params)
       redirect_to links_path, notice: 'Link was successfully updated.'
-      #redirect_to action: 'index', parametro: "hola", notice: 'Link was successfully updated.'
-      #redirect_to controller: 'otro_controlador', action: 'otra_accion'
     else
       render :edit
     end
@@ -26,24 +24,13 @@ class LinksController < ApplicationController
   end
 
   def create
-    #@link = Link.new(link_params)
-    #@link.user_id = current_user.id
-    #@link = Link.build(link_params[:url], link_params[:tipo], current_user.id)
-=begin
-    case link_params[:tipo]
-    when 'private'
-      @link = PrivateLink.new(link_params)
-    when 'temporal'
-      @link = TemporalLink.new(link_params)
-    else
-      @link = Link.new(link_params)
-    end
-=end
     @link = Link.new(link_params)
     @link.user_id = current_user.id
     if @link.save
-      @link.update(short_url: "http://127.0.0.1:3000/#{encode_id(@link.id)}")
+      @link.update(short_url: "l/#{encode_id(@link.id)}")
       redirect_to links_path, notice: 'Link was successfully created.'
+      #redirect_to action: 'index', parametro: "hola", notice: 'Link was successfully updated.'
+      #redirect_to controller: 'otro_controlador', action: 'otra_accion'
     else
       flash[:error] = @link.errors.full_messages.to_sentence
       redirect_to action: 'new'
@@ -72,9 +59,7 @@ class LinksController < ApplicationController
       flash[:error] = result[:message]
       redirect_to action: 'send_to_url'
     end
-
   end
-
 
   def destroy
     @link = Link.find(params[:id])
@@ -84,18 +69,18 @@ class LinksController < ApplicationController
 
   private
 
-
-  def set_link
-    id = decode_id(params[:short_url])
-    @link = Link.find(id)
-  end
-
   def link_params
     #params.require(:link).permit(:url, :type, :nombre, :expiration_date, :password, :entered)
     params.require(:link).permit(:url, :type, :nombre, :expiration_date).tap do |whitelisted|
       whitelisted[:password] = params[:link][:password] if params[:link][:type] == 'PrivateLink'
       whitelisted[:entered] = params[:link][:entered] if params[:link][:type] == 'EphemeralLink'
+      whitelisted[:expiration_date] = params[:link][:expiration_date] if params[:link][:type] == 'TemporalLink'
     end
+  end
+
+  def set_link
+    id = decode_id(params[:short_url])
+    @link = Link.find(id)
   end
 
   def encode_id(id)
@@ -106,9 +91,3 @@ class LinksController < ApplicationController
     Base64.urlsafe_decode64(encoded_id).to_i
   end
 end
-
-
-
-#Edicion de links. Url, tipo
-#Link seguros? slug/patron
-#La clave solo la ingresan los visitantes?

@@ -1,5 +1,14 @@
-<h1>Home</h1>
-<p>Pagina Inicial</p>   
+<h1 style="text-align:center">Bienvenido a ChqTo</h1>
+<br>
+<figure class="text-center">
+  <blockquote class="blockquote">
+    <p class="mb-0">El objetivo de esta aplicación web es brindar links cortos para URLs arbitrariamente
+largas, que puedan ser utilizados en redes sociales o cualquier comunicación online para compartir
+páginas web de manera sencilla.</p>
+  </blockquote>
+</figure>
 <% if signed_in? %>
-    <%= link_to "Mis links", 'links' %>
+    <div class="d-flex justify-content-center">
+        <%= link_to "Mis links", 'links', class: "btn btn-primary" %>
+    </div>
 <% end %>
