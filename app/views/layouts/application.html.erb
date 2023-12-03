@@ -1,3 +1,4 @@
+<%= javascript_include_tag 'rails-ujs' %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -17,20 +18,35 @@
 
   <div class="d-flex align-items-center">
     <% if signed_in? %>
-      <%= button_to "Salir", destroy_user_session_path, method: :delete, class: "btn btn-outline-danger mr-2" %>
-      
-      <%= button_to "Eliminar cuenta", registration_path(current_user), method: :delete, class: "btn btn-outline-danger mr-2", onclick: "return confirm('¿Estás seguro?');" %>
+      <%= link_to "Mi perfil", user_index_path, class: "nav-link custom-link mr-2" %>
+      <%= link_to "Salir", destroy_user_session_path, method: :delete, class: "nav-link custom-link mr-2" %>
     <% else %>
-      <%= link_to "Registrarse", new_user_registration_path, class: "btn btn-outline-light mr-2" %>
-      <%= link_to "Ingresar", new_user_session_path, class: "btn btn-outline-light" %>
+      <%= link_to "Registrarse", new_user_registration_path, class: "nav-link custom-link mr-2" %>
+      <%= link_to "Ingresar", new_user_session_path, class: "nav-link custom-link" %>
     <% end %>
   </div>
 </nav>
+
+
 
    <b style=text-align:center>
    <p class="notice"><%= notice %> </p>
    <p class="alert"><%= alert %></p>
    </b>
     <%= yield %>
+    
   </body>
 </html>
+
+<style>
+.custom-link {
+  color: white; 
+  text-decoration: none; 
+  padding: 5px 10px; 
+  transition: color 0.3s ease; 
+}
+
+.custom-link:hover {
+  color: #ffc107; 
+}
+</style>

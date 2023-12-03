@@ -1,6 +1,7 @@
 class LinksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_link, only: [:send_to_url, :verificar_password]
+  before_action :authorize_user, only: [:edit, :update]
 
   def index
     @links = current_user.links
@@ -13,7 +14,7 @@ class LinksController < ApplicationController
   def update
     @link = Link.find(params[:id])
     if @link.update(link_params)
-      redirect_to links_path, notice: 'Link was successfully updated.'
+      redirect_to links_path, notice: 'Link actualizado con exito'
     else
       render :edit
     end
@@ -28,9 +29,7 @@ class LinksController < ApplicationController
     @link.user_id = current_user.id
     if @link.save
       @link.update(short_url: "l/#{encode_id(@link.id)}")
-      redirect_to links_path, notice: 'Link was successfully created.'
-      #redirect_to action: 'index', parametro: "hola", notice: 'Link was successfully updated.'
-      #redirect_to controller: 'otro_controlador', action: 'otra_accion'
+      redirect_to links_path, notice: 'Link creado con exito'
     else
       flash[:error] = @link.errors.full_messages.to_sentence
       redirect_to action: 'new'
@@ -64,13 +63,19 @@ class LinksController < ApplicationController
   def destroy
     @link = Link.find(params[:id])
     @link.destroy!
-    redirect_to links_path, notice: 'Link was successfully deleted'
+    redirect_to links_path, notice: 'Link eliminado con exito'
   end
 
   private
 
+  def authorize_user
+    @link = Link.find(params[:id])
+    unless current_user == @link.user
+      redirect_to links_path, alert: "Acceso denegado"
+    end
+  end
+
   def link_params
-    #params.require(:link).permit(:url, :type, :nombre, :expiration_date, :password, :entered)
     params.require(:link).permit(:url, :type, :nombre, :expiration_date).tap do |whitelisted|
       whitelisted[:password] = params[:link][:password] if params[:link][:type] == 'PrivateLink'
       whitelisted[:entered] = params[:link][:entered] if params[:link][:type] == 'EphemeralLink'

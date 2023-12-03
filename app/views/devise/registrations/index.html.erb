@@ -1,0 +1,16 @@
+<ul class="list-group">
+  <li class="list-group-item">
+    <strong>Email:</strong> <%= @usuario_actual.email %>
+  </li>
+  <li class="list-group-item">
+    <strong>Nombre de usuario:</strong> <%= @usuario_actual.username %>
+  </li>
+</ul>
+<br>
+<div class="btn-group">
+  <%= button_to "Eliminar cuenta", registration_path(current_user), method: :delete, class: "btn btn-outline-danger mr-2", onclick: "return confirm('¿Estás seguro?');" %>
+  <%= button_to 'Editar perfil', edit_user_registration_path, method: :get, class: 'btn btn-primary ml-2' %>
+</div>
+
+
+
