@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
   resources :links, except: [:show]
 
+  get 'link_statistics', to: 'link_statistics#index'
+
   get '/l/:short_url', to: 'links#send_to_url'
   post '/l/:short_url', to: 'links#verificar_password'
 

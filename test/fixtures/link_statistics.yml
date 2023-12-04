@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  link: one
+  access_date: 2023-12-03
+  access_count: 1
+
+two:
+  link: two
+  access_date: 2023-12-03
+  access_count: 1

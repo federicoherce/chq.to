@@ -21,7 +21,7 @@ class LinksController < ApplicationController
   end
 
   def new
-    @link = current_user.links.build # preparando una nueva instancia de Link que ya está asociada al usuario actual.
+    @link = current_user.links.build
   end
 
   def create
@@ -29,6 +29,7 @@ class LinksController < ApplicationController
     @link.user_id = current_user.id
     if @link.save
       @link.update(short_url: "l/#{encode_id(@link.id)}")
+      @link.create_link_statistic(access_date: Date.current, access_count: 0)
       redirect_to links_path, notice: 'Link creado con exito'
     else
       flash[:error] = @link.errors.full_messages.to_sentence
@@ -43,6 +44,7 @@ class LinksController < ApplicationController
     end
     result = @link.redirect(@link)
     if result[:success]
+      @link.link_statistic.increment_count(@link)
       redirect_to @link.url, allow_other_host: true
     else
       render :file => "#{Rails.root}/public/#{result[:status]}.html"
