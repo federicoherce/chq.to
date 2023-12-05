@@ -13,6 +13,7 @@
       <th scope="col">Tipo</th>
       <th scope="col">Nombre</th>
       <th scope="col">Editar</th>
+      <th scope="col">Estadisticas</th>
       <th scope="col">Eliminar</th>
     </tr>
   </thead>
@@ -25,7 +26,9 @@
         <td><%= link.nombre if link.nombre.present? %></td>
         <td>
           <%= link_to 'Editar', edit_link_path(link.id), class: 'btn btn-primary btn-sm' %>
-          <!-- Add other actions/buttons as needed -->
+        </td>
+        <td>
+        <%= link_to 'Estadisticas', link_statistics_path(id: link.id), class: 'btn btn-primary' %>
         </td>
         <td>
           <%= button_to "Eliminar", link_path(link.id), method: :delete, class: "btn btn-danger", onclick: "return confirm('¿Estás seguro?');" %>
@@ -35,7 +38,6 @@
   </tbody>
 </table>
 <%= link_to 'Nuevo Link', 'links/new', class: 'btn btn-primary' %>
-<%= link_to 'Estadisticas', 'link_statistics', class: 'btn btn-primary' %>
 
 
 

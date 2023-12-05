@@ -1,7 +1,7 @@
 class LinkStatisticsController < ApplicationController
 
-  def index
-    @user_links = current_user.links
+  def show
+    @link = Link.find(params[:id])
   end
 
 end

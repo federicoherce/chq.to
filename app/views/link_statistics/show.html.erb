@@ -1,0 +1,42 @@
+
+<h1 style="text-align:center">Cantidad de accesos por dia</h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Fecha</th>
+      <th>Accesos</th>
+    </tr>
+  </thead>
+  <tbody>
+      <% @link.link_statistic.each do |statistic| %>
+        <tr>
+          <td> <%= statistic.access_date %> </td>
+          <td> <%= statistic.access_count %> </td>
+        </tr>
+      <% end %>
+  </tbody>
+</table>
+
+<br>
+<br>
+
+<h1 style="text-align:center">Fecha, hora y direccion IP de cada acceso</h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Fecha y Hora</th>
+      <th>Direccion IP</th>
+    </tr>
+  </thead>
+  <tbody>
+      <% @link.link_access_details.each do |detail| %>
+        <tr>
+          <td> <%= detail.access_datetime.strftime("%Y-%m-%d %H:%M:%S") %> </td>
+          <td> <%= detail.ip_address %> </td>
+        </tr>
+      <% end %>
+  </tbody>
+</table>
+

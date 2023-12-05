@@ -29,7 +29,6 @@ class LinksController < ApplicationController
     @link.user_id = current_user.id
     if @link.save
       @link.update(short_url: "l/#{encode_id(@link.id)}")
-      LinkStatistic.create(link_id: @link.id, access_date: Date.current, access_count: 0)
       redirect_to links_path, notice: 'Link creado con exito'
     else
       flash[:error] = @link.errors.full_messages.to_sentence
@@ -56,6 +55,8 @@ class LinksController < ApplicationController
     entered_password = params[:password]
     result = @link.redirect(entered_password)
     if result[:success]
+      LinkStatistic.increment_count(@link)
+      LinkAccessDetail.add_access(@link, request.remote_ip)
       redirect_to @link.url, allow_other_host: true
     else
       flash[:error] = result[:message]

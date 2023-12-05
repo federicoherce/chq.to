@@ -7,3 +7,48 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+def encode_id(id)
+  Base64.urlsafe_encode64(id.to_s)
+end
+
+user = User.create(email: "fede@gmail.com",
+                   username: "fedeherce",
+                   password: "1234")
+
+first_link = Link.create(url: "https://www.google.com/",
+                        user_id: user.id,
+                        type:"RegularLink",
+                        nombre: "Estadisticas pasadas")
+first_link.update(short_url: "l/#{encode_id(first_link.id)}")
+LinkStatistic.create(link_id: first_link.id, access_date: Date.yesterday, access_count: 1)
+LinkAccessDetail.create(link_id: first_link.id, access_datetime: DateTime.yesterday, ip_address: "127.0.0.1")
+
+
+second_link = Link.create(url: "https://www.info.unlp.edu.ar/",
+                         user_id: user.id,
+                         type:"TemporalLink",
+                         nombre: "Vence en año nuevo",
+                         expiration_date: "{1=>2023, 2=>12, 3=>31, 4=>23, 5=>59}")
+second_link.update(short_url: "l/#{encode_id(second_link.id)}")
+
+third_link = Link.create(url: "https://www.info.unlp.edu.ar/",
+                         user_id: user.id,
+                         type:"TemporalLink",
+                         nombre:"Link vencido",
+                         expiration_date: "{1=>2023, 2=>9, 3=>5, 4=>17, 5=>0}")
+third_link.update(short_url: "l/#{encode_id(third_link.id)}")
+
+fourth_link = Link.create(url: "https://catedras.linti.unlp.edu.ar/",
+                         user_id: user.id,
+                         type:"PrivateLink",
+                         password: "1234",
+                         nombre: "La contraseña es 1234")
+fourth_link.update(short_url: "l/#{encode_id(fourth_link.id)}")
+
+fifth_link = Link.create(url: "https://autogestion.guarani.unlp.edu.ar/",
+                        user_id: user.id,
+                        type: "EphemeralLink",
+                        nombre:"Efímero sin ingresar",
+                        entered: false)
+fifth_link.update(short_url: "l/#{encode_id(fifth_link.id)}")
