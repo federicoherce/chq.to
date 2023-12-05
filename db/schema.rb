@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_04_022853) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_05_043050) do
   create_table "ephemeral_links", force: :cascade do |t|
     t.boolean "entered"
+  end
+
+  create_table "link_access_details", force: :cascade do |t|
+    t.integer "link_id", null: false
+    t.datetime "access_datetime"
+    t.string "ip_address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["link_id"], name: "index_link_access_details_on_link_id"
   end
 
   create_table "link_statistics", force: :cascade do |t|
@@ -58,6 +67,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_04_022853) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "link_access_details", "links"
   add_foreign_key "link_statistics", "links"
   add_foreign_key "links", "users"
 end
