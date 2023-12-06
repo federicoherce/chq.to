@@ -25,16 +25,16 @@ class LinksController < ApplicationController
   end
 
   def create
-    @link = Link.new(link_params)
-    @link.user_id = current_user.id
+    @link = current_user.links.new(link_params)
     if @link.save
       @link.update(short_url: "l/#{encode_id(@link.id)}")
-      redirect_to links_path, notice: 'Link creado con exito'
+      redirect_to links_path, notice: 'Link creado con éxito'
     else
       flash[:error] = @link.errors.full_messages.to_sentence
-      redirect_to action: 'new'
+      render :new
     end
   end
+
 
   def send_to_url
     if @link.type == "PrivateLink"
@@ -100,3 +100,7 @@ class LinksController < ApplicationController
     Base64.urlsafe_decode64(encoded_id).to_i
   end
 end
+
+#idioma español
+#agregar mas campos a edicion de links
+#readme

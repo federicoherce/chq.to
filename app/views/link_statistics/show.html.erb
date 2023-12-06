@@ -21,22 +21,51 @@
 <br>
 <br>
 
-<h1 style="text-align:center">Fecha, hora y direccion IP de cada acceso</h1>
+
+<%= link_to "Volver", links_path, class: "btn btn-primary" %>
+<h1 style="text-align:center">Fecha, hora e IP de cada acceso</h1>
+
+<div class="forms">
+  <%= form_tag(link_statistics_path, method: :get) do %>
+    <div class="form-group">
+      <%= label_tag 'start_date', 'Fecha de inicio:' %>
+      <%= date_field_tag 'start_date', params[:start_date], class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= label_tag 'end_date', 'Fecha de fin:' %>
+      <%= date_field_tag 'end_date', params[:end_date], class: 'form-control' %>
+    </div>
+
+    <br>
+
+    <div class="form-group">
+      <%= label_tag 'ip_address', 'Dirección IP:' %>
+      <%= text_field_tag 'ip_address', params[:ip_address], class: 'form-control' %>
+    </div>
+
+    <%= submit_tag 'Filtrar', class: 'btn btn-primary' %>
+    <%= link_to 'Deshacer busqueda', link_statistics_path, class: 'btn btn-primary' %>
+  <% end %>
+</div>
+
+
 
 <table class="table table-hover">
   <thead>
     <tr>
       <th>Fecha y Hora</th>
-      <th>Direccion IP</th>
+      <th>Dirección IP</th>
     </tr>
   </thead>
   <tbody>
-      <% @link.link_access_details.each do |detail| %>
-        <tr>
-          <td> <%= detail.access_datetime.strftime("%Y-%m-%d %H:%M:%S") %> </td>
-          <td> <%= detail.ip_address %> </td>
-        </tr>
-      <% end %>
+    <% @link_access_details.each do |detail| %>
+      <tr>
+        <td> <%= detail.access_datetime.strftime("%d-%m-%Y %H:%M:%S") %> </td>
+        <td> <%= detail.ip_address %> </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
+
 
