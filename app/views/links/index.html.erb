@@ -1,3 +1,6 @@
+<%= link_to 'Nuevo Link', 'links/new', class: 'btn btn-primary' %>
+<br>
+<br>
 <h1>Tus Links</h1>
 <br>
 <% if flash[:error] %>
@@ -37,7 +40,8 @@
     <% end %>
   </tbody>
 </table>
-<%= link_to 'Nuevo Link', 'links/new', class: 'btn btn-primary' %>
+<%= will_paginate @links, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
+
 
 
 

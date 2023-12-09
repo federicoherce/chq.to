@@ -1,4 +1,3 @@
-
 class LinkAccessDetail < ApplicationRecord
   belongs_to :link
 
@@ -6,6 +5,5 @@ class LinkAccessDetail < ApplicationRecord
     fecha = DateTime.now.strftime("%d-%m-%Y %H:%M:%S")
     LinkAccessDetail.create(link_id: link.id, access_datetime: fecha, ip_address: ip)
   end
-
 
 end

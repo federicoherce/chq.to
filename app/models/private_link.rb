@@ -5,7 +5,7 @@ class PrivateLink < Link
     if authenticate(entered_password)
       { success: true }
     else
-      { success: false, message: "Password is incorrect"}
+      { success: false, message: "La contraseña es incorrecta"}
     end
   end
 

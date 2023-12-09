@@ -4,7 +4,8 @@ class LinksController < ApplicationController
   before_action :authorize_user, only: [:edit, :update]
 
   def index
-    @links = current_user.links
+    #@links = current_user.links
+    @links = current_user.links.paginate(page: params[:page], per_page: 4)
   end
 
   def edit
@@ -35,7 +36,6 @@ class LinksController < ApplicationController
     end
   end
 
-
   def send_to_url
     if @link.type == "PrivateLink"
       render "password_form"
@@ -43,8 +43,7 @@ class LinksController < ApplicationController
     end
     result = @link.redirect(@link)
     if result[:success]
-      LinkStatistic.increment_count(@link)
-      LinkAccessDetail.add_access(@link, request.remote_ip)
+      create_statistics(@link, request.remote_ip)
       redirect_to @link.url, allow_other_host: true
     else
       render :file => "#{Rails.root}/public/#{result[:status]}.html"
@@ -55,8 +54,7 @@ class LinksController < ApplicationController
     entered_password = params[:password]
     result = @link.redirect(entered_password)
     if result[:success]
-      LinkStatistic.increment_count(@link)
-      LinkAccessDetail.add_access(@link, request.remote_ip)
+      create_statistics(@link, request.remote_ip)
       redirect_to @link.url, allow_other_host: true
     else
       flash[:error] = result[:message]
@@ -72,11 +70,9 @@ class LinksController < ApplicationController
 
   private
 
-  def authorize_user
-    @link = Link.find(params[:id])
-    unless current_user == @link.user
-      redirect_to links_path, alert: "Acceso denegado"
-    end
+  def create_statistics(link, ip)
+    LinkStatistic.increment_count(link)
+    LinkAccessDetail.add_access(link, ip)
   end
 
   def link_params
