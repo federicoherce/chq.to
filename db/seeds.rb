@@ -21,7 +21,7 @@ first_link = Link.create(url: "https://www.google.com/",
                         type:"RegularLink",
                         nombre: "Estadisticas pasadas")
 first_link.update(short_url: "l/#{encode_id(first_link.id)}")
-LinkStatistic.create(link_id: first_link.id, access_date: Date.yesterday, access_count: 1)
+LinkStatistic.create(link_id: first_link.id, access_date: Date.new(2023,9,5), access_count: 1)
 LinkAccessDetail.create(link_id: first_link.id, access_datetime:  DateTime.new(2023, 9, 5, 12, 0, 0), ip_address: "127.0.0.1")
 
 

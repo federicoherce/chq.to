@@ -1,4 +1,6 @@
 
+<%= link_to "Volver", links_path, class: "btn btn-primary" %>
+
 <h1 style="text-align:center">Cantidad de accesos por dia</h1>
 
 <table class="table table-hover">
@@ -11,7 +13,7 @@
   <tbody>
       <% @link.link_statistic.each do |statistic| %>
         <tr>
-          <td> <%= statistic.access_date %> </td>
+          <td> <%= statistic.access_date.strftime("%d-%m-%Y") %> </td>
           <td> <%= statistic.access_count %> </td>
         </tr>
       <% end %>
@@ -21,8 +23,6 @@
 <br>
 <br>
 
-
-<%= link_to "Volver", links_path, class: "btn btn-primary" %>
 <h1 style="text-align:center">Fecha, hora e IP de cada acceso</h1>
 
 <div class="forms">

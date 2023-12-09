@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_05_043050) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_07_134228) do
   create_table "ephemeral_links", force: :cascade do |t|
     t.boolean "entered"
   end
@@ -38,20 +38,13 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_05_043050) do
     t.string "short_url"
     t.integer "user_id", null: false
     t.string "type", null: false
-    t.string "expiration_date"
+    t.datetime "expiration_date"
     t.boolean "entered"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "nombre"
     t.string "password_digest"
     t.index ["user_id"], name: "index_links_on_user_id"
-  end
-
-  create_table "posts", force: :cascade do |t|
-    t.string "title"
-    t.text "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

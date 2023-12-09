@@ -100,7 +100,3 @@ class LinksController < ApplicationController
     Base64.urlsafe_decode64(encoded_id).to_i
   end
 end
-
-#idioma español
-#agregar mas campos a edicion de links
-#readme
