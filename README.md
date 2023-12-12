@@ -20,6 +20,7 @@ Esta aplicacion web permite acortar links de URLs, para luego poder utilizarlos 
 - Ir al directorio de la aplicacion -> 'chq.to'
 - Instala las gemas necesarias para utilizar la aplicación -> bundle install
 - Crea la base de datos -> rails db:create
+- Cargar las tablas -> rails db:schema:load
 - Cargar la base de datos con datos de prueba -> rails db:seed
 
 

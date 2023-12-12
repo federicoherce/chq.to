@@ -4,7 +4,6 @@ class LinksController < ApplicationController
   before_action :authorize_user, only: [:edit, :update]
 
   def index
-    #@links = current_user.links
     @links = current_user.links.paginate(page: params[:page], per_page: 4)
   end
 
